@@ -16,32 +16,35 @@ gas = ["gas_station"]
 
 grocery = ["grocery", "grocery_or_supermarket", "supermarket", "convenience_store"]
 
+#considered organizing types differently, not in use currently but saving for now
+
+
 cards = {
+    #Discover It Gas & Restaurant
     "Discover It Gas & Restaurant":{
-        "gas":2,
+        "gas_station":2,
         "restaurant":2,
         "all":1,
-        "type":"Discover"
     },
-    "Uber Visa Card":{
+    #Uber Visa card
+    "Uber Visa card":{
         "restaurant":4,
         "bakery":4,
         "bar":4,
         "cafe":4,
         "hotel":3,
-        "airfare":3,
+        "airport":3,
         "online":2,
         "all":1,
-        "type":"Visa"
     },
+    #Amazon Prime Rewards Visa Card
     "Amazon Prime Rewards Visa Card":{
         "Amazon":5,
         "Whole Foods Market":5,
-        "dining":2,
-        "gas":2,
+        "restaurant":2,
+        "gas_station":2,
         "drugstore":2,
         "all":1,
-        "type":"Visa"
     }
 
 }
@@ -73,9 +76,9 @@ def estType(name):
     URL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + name + "&key=AIzaSyC-KV06-_bl1FaE68-YXlydtcq53EDC75Y"
 
     PARAMS = {'address':name, 'key':'AIzaSyC-KV06-_bl1FaE68-YXlydtcq53EDC75Y'}
-
+    #import data from the api-endpoint
     r = requests.get(url = URL, params = PARAMS)
-
+    #format data in JSON
     data = r.json()
 
     #extracts establishment type from json data
@@ -83,7 +86,7 @@ def estType(name):
     types = data['results'][0]['types']
 
 
-    print("Name:", checkName, "\nTypes:", types)
+    #print("Name:", checkName, "\nTypes:", types)
 
     return types
 
@@ -103,22 +106,43 @@ def bingLatlong(name):
         %(latitude, longitude))
 
 
-def whichCard(types):
+def searchCard(types):
     #function built to determine which kind of card to use based on establishment types
     max = 0
+    altmax = 0
+    #for case that types value is empty/null, use best "all" card
+    if types == None:
+        for cardID, cardType in cards.items():
+            if "all" in cardType:
+                if cards[cardID]["all"] > altmax:
+                    altmax = cards[cardID]["all"]
+                    altID = cardID
     #run through the types of the search
-    for i in types:
+    for i in range(len(types)):
         #run through the credit card dict
-        for j in cards:
+        for cardID, cardType in cards.items():
             #if the current type is within cards, max is equal to the value of the type within card
-            if types[i] in cards[j]:
-                if cards[j][types[i]] > max:
-                    max = cards[j][types[i]]
+            if types[i] in cards[cardID]:
+                if cards[cardID][types[i]] > max:
+                    max = cards[cardID][types[i]]
+                    maxID = cardID
+            #account for types not matching
+            if "all" in cardType:
+                if cards[cardID]["all"] > altmax:
+                    altmax = cards[cardID]["all"]
+                    altID = cardID
 
-    print("Max:", max)
 
 
-whichCard(estType("Trader Joe's Boulder"))
+    #return specific max vs all depending on larger value
+    if max >= altmax:
+        print("Max Percentage: ", max)
+        print("Best Card: ", maxID)
+    else:
+        print("Max Percentage: ", altmax)
+        print("Best Card: ", altID)
+
+searchCard(estType("Akita International University"))
 #estType("Akita International University")
-#latlong("Trader Joe's Boulder")
+#latlong("Akita International University")
 #bingLatlong("Trader Joe's Boulder")
