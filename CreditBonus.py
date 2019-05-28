@@ -1,6 +1,7 @@
 import requests
 import json
 
+
 typedict = {
     "food" : ["bakery", "bar", "cafe", "meal_delivery", "meal_takeaway", "restaurant"],
     "travel" : ["airport", "hotel", "bus_station", "car_rental", "subway_station", "travel_agency"],
@@ -49,6 +50,19 @@ cards = {
 
 }
 
+def geoloc():
+    #api-endpoint
+    URL = "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyC-KV06-_bl1FaE68-YXlydtcq53EDC75Y"
+    #defining a params dict for the parameters of the pull to be sent to the API
+    PARAMS = {'key':'AIzaSyC-KV06-_bl1FaE68-YXlydtcq53EDC75Y'}
+    #get request
+    data = requests.get(url = URL, params = PARAMS)
+
+
+
+    print (data)
+
+
 def latlong(name):
     # api-endpoint
     URL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + name + "&key=AIzaSyC-KV06-_bl1FaE68-YXlydtcq53EDC75Y"
@@ -58,7 +72,7 @@ def latlong(name):
     PARAMS = {'address':location, 'key':'AIzaSyC-KV06-_bl1FaE68-YXlydtcq53EDC75Y'}
     # sending get request and saving the response as response object
     r = requests.get(url = URL, params = PARAMS)
-    # extracting data in json format
+    # json format
     data = r.json()
 
     # extracting latitude, longitude and formatted address
@@ -70,6 +84,9 @@ def latlong(name):
     # printing the output
     print("Latitude:%s\nLongitude:%s\nFormatted Address:%s"
         %(latitude, longitude,formatted_address))
+    return formatted_address
+
+
 
 def estType(name):
     #api-endpoint
@@ -142,7 +159,8 @@ def searchCard(types):
         print("Max Percentage: ", altmax)
         print("Best Card: ", altID)
 
-searchCard(estType("Akita International University"))
+#searchCard(estType("Akita International University"))
 #estType("Akita International University")
-#latlong("Akita International University")
+#searchCard(latlong("Akita International University"))
 #bingLatlong("Trader Joe's Boulder")
+geoloc()
