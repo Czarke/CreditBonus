@@ -1,7 +1,6 @@
 import requests
 import json
 
-
 typedict = {
     "food" : ["bakery", "bar", "cafe", "meal_delivery", "meal_takeaway", "restaurant"],
     "travel" : ["airport", "hotel", "bus_station", "car_rental", "subway_station", "travel_agency"],
@@ -52,9 +51,9 @@ cards = {
 
 def geoloc():
     #api-endpoint
-    URL = "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyC-KV06-_bl1FaE68-YXlydtcq53EDC75Y"
+    URL = "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyBD4t8rfqbiV-Q8ThUjSWRBJKHNY-RQFQw"
     #defining a params dict for the parameters of the pull to be sent to the API
-    PARAMS = {'key':'AIzaSyC-KV06-_bl1FaE68-YXlydtcq53EDC75Y'}
+    PARAMS = {'key':'AIzaSyBD4t8rfqbiV-Q8ThUjSWRBJKHNY-RQFQw'}
     #get request
     data = requests.get(url = URL, params = PARAMS)
 
@@ -65,11 +64,11 @@ def geoloc():
 
 def latlong(name):
     # api-endpoint
-    URL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + name + "&key=AIzaSyC-KV06-_bl1FaE68-YXlydtcq53EDC75Y"
+    URL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + name + "&key=AIzaSyBD4t8rfqbiV-Q8ThUjSWRBJKHNY-RQFQw"
     # location given here
     location = name
     # defining a params dict for the parameters to be sent to the API
-    PARAMS = {'address':location, 'key':'AIzaSyC-KV06-_bl1FaE68-YXlydtcq53EDC75Y'}
+    PARAMS = {'address':location, 'key':'AIzaSyBD4t8rfqbiV-Q8ThUjSWRBJKHNY-RQFQw'}
     # sending get request and saving the response as response object
     r = requests.get(url = URL, params = PARAMS)
     # json format
@@ -88,16 +87,16 @@ def latlong(name):
 
 
 
-def estType(name):
+def estType():
+    name = input("Where are you?: ")
     #api-endpoint
-    URL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + name + "&key=AIzaSyC-KV06-_bl1FaE68-YXlydtcq53EDC75Y"
+    URL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + name + "&key=AIzaSyBD4t8rfqbiV-Q8ThUjSWRBJKHNY-RQFQw"
 
-    PARAMS = {'address':name, 'key':'AIzaSyC-KV06-_bl1FaE68-YXlydtcq53EDC75Y'}
+    PARAMS = {'address':name, 'key':'AIzaSyBD4t8rfqbiV-Q8ThUjSWRBJKHNY-RQFQw'}
     #import data from the api-endpoint
     r = requests.get(url = URL, params = PARAMS)
     #format data in JSON
     data = r.json()
-
     #extracts establishment type from json data
     checkName = data['results'][0]['name']
     types = data['results'][0]['types']
@@ -109,7 +108,7 @@ def estType(name):
 
 def bingLatlong(name):
     #api-endpoint
-    URL = "http://dev.virtualearth.net/REST/v1/Locations?query=" + name + "&includeNeighborhood=0&maxResults=1&key=Al6EkyXVZzsE-2yMd30z56LyZrYLZS_K077Gpqw44MO_5UMEYru83027pvCw-_N-"
+    URL = "http://dev.virtualearth.net/REST/v1/Locations?query=" + name + "&includeNeighborhood=0&maxResults=1&key=AIzaSyBD4t8rfqbiV-Q8ThUjSWRBJKHNY-RQFQw"
 
     r = requests.get(url = URL)
 
@@ -159,8 +158,8 @@ def searchCard(types):
         print("Max Percentage: ", altmax)
         print("Best Card: ", altID)
 
-#searchCard(estType("Akita International University"))
+searchCard(estType())
 #estType("Akita International University")
 #searchCard(latlong("Akita International University"))
 #bingLatlong("Trader Joe's Boulder")
-geoloc()
+#geoloc()
