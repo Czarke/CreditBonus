@@ -1,6 +1,9 @@
 import requests
 import json
 
+from tkinter import *
+
+
 typedict = {
     "food" : ["bakery", "bar", "cafe", "meal_delivery", "meal_takeaway", "restaurant"],
     "travel" : ["airport", "hotel", "bus_station", "car_rental", "subway_station", "travel_agency"],
@@ -87,8 +90,7 @@ def latlong(name):
 
 
 
-def estType():
-    name = input("Where are you?: ")
+def estType(name):
     #api-endpoint
     URL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + name + "&key=AIzaSyBD4t8rfqbiV-Q8ThUjSWRBJKHNY-RQFQw"
 
@@ -151,14 +153,56 @@ def searchCard(types):
 
 
     #return specific max vs all depending on larger value
-    if max >= altmax:
+    if max <= altmax:
+        max = altmax
+        maxID = altID
         print("Max Percentage: ", max)
         print("Best Card: ", maxID)
     else:
-        print("Max Percentage: ", altmax)
-        print("Best Card: ", altID)
+        print("Max Percentage: ", max)
+        print("Best Card: ", maxID)
+    return [max, maxID]
 
-searchCard(estType())
+def execute(name):
+    result = searchCard(estType(name))
+    info1 = Label(master, text=result[0])
+    info1.place(x = 170, y = 200)
+    info2 = Message(master, text=result[1])
+    info2.place(x = 170, y = 220)
+
+
+
+
+#experimenting with tkinter here
+import tkinter as tk
+from tkinter import *
+from tkinter import ttk
+master = tk.Tk()
+master.geometry("300x300")
+master.title('CreditBonus')
+
+
+maxtext = Label(master, text='Max Percentage: ')
+maxtext.place(x = 60, y = 200)
+cardtext = Label(master, text='Best Card: ')
+cardtext.place(x = 60, y = 220)
+
+prompt = Label(master, text='Location: ')
+prompt.place(x=90, y=100)
+e1 = tk.Entry(master)
+e1.place(x = 90, y = 125)
+
+button = tk.Button(master, text='Find Card', width=25, command= lambda: execute(e1.get()))
+button.place(x=60, y=160)
+
+
+mainloop()
+
+
+
+
+
+#searchCard(estType('Black Eye Coffee'))
 #estType("Akita International University")
 #searchCard(latlong("Akita International University"))
 #bingLatlong("Trader Joe's Boulder")
