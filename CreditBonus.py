@@ -54,9 +54,9 @@ cards = {
 
 def geoloc():
     #api-endpoint
-    URL = "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyBD4t8rfqbiV-Q8ThUjSWRBJKHNY-RQFQw"
+    URL = "https://www.googleapis.com/geolocation/v1/geolocate?key"
     #defining a params dict for the parameters of the pull to be sent to the API
-    PARAMS = {'key':'AIzaSyBD4t8rfqbiV-Q8ThUjSWRBJKHNY-RQFQw'}
+    PARAMS = {'key':'key'}
     #get request
     data = requests.get(url = URL, params = PARAMS)
 
@@ -67,11 +67,11 @@ def geoloc():
 
 def latlong(name):
     # api-endpoint
-    URL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + name + "&key=AIzaSyBD4t8rfqbiV-Q8ThUjSWRBJKHNY-RQFQw"
+    URL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + name + "key"
     # location given here
     location = name
     # defining a params dict for the parameters to be sent to the API
-    PARAMS = {'address':location, 'key':'AIzaSyBD4t8rfqbiV-Q8ThUjSWRBJKHNY-RQFQw'}
+    PARAMS = {'address':location, 'key':'key'}
     # sending get request and saving the response as response object
     r = requests.get(url = URL, params = PARAMS)
     # json format
@@ -92,9 +92,9 @@ def latlong(name):
 
 def estType(name):
     #api-endpoint
-    URL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + name + "&key=AIzaSyBD4t8rfqbiV-Q8ThUjSWRBJKHNY-RQFQw"
+    URL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + name + "key"
 
-    PARAMS = {'address':name, 'key':'AIzaSyBD4t8rfqbiV-Q8ThUjSWRBJKHNY-RQFQw'}
+    PARAMS = {'address':name, 'key':'key'}
     #import data from the api-endpoint
     r = requests.get(url = URL, params = PARAMS)
     #format data in JSON
@@ -110,7 +110,7 @@ def estType(name):
 
 def bingLatlong(name):
     #api-endpoint
-    URL = "http://dev.virtualearth.net/REST/v1/Locations?query=" + name + "&includeNeighborhood=0&maxResults=1&key=AIzaSyBD4t8rfqbiV-Q8ThUjSWRBJKHNY-RQFQw"
+    URL = "http://dev.virtualearth.net/REST/v1/Locations?query=" + name + "&includeNeighborhood=0&maxResults=1&key"
 
     r = requests.get(url = URL)
 
